@@ -10,7 +10,7 @@ public class TxtEnJava
      private      int    cantidad;   
                   File   FicherogruposFb= new File("gruposFb.txt");
 
-                 ArrayList<TxtEnJava> cositas =new ArrayList<TxtEnJava>();
+                 ArrayList<TxtEnJava> cosas =new ArrayList<TxtEnJava>();
                  TxtEnJava             objeto = null;
     //zona de metodos
     
@@ -128,7 +128,7 @@ public class TxtEnJava
             //lo paso al constructor para que me cree los objetos
             objeto= new TxtEnJava(idOperar,descripcion,cantidadOperar);
             //lo añado al vecto para poder jugetear con el 
-            cositas.add(objeto);
+            cosas.add(objeto);
             
             }
          leerFichero.close();
@@ -142,14 +142,14 @@ public class TxtEnJava
    public void ActualizarArraList()
    {
       //Este es el ArrayList declarado arriba 
-      cositas.clear();
+      cosas.clear();
       DetxtAObjeto(); 
    }
       public void MostrarObjetos()
       {
-     if( cositas.size()==0){DetxtAObjeto();}
+     if( cosas.size()==0){DetxtAObjeto();}
      System.out.println("=========================== Articulo=========================================================================================================================================================================================");     
-     for(TxtEnJava n:cositas)
+     for(TxtEnJava n:cosas)
      {
       System.out.println("El id es:"+n.getId()+"\t"+"La descripcion es:"+n.getDescripcion()+"\t"+ "La cantaidad es:"+ n.getCantidad());
      }  
@@ -164,7 +164,7 @@ public class TxtEnJava
         //lo segundo es mostrarlo por logica si no sabes lo que tienes como vas a modificarlo 
         //lo tercero es modificarlo para esto tienes que saber que dentro de este objeto tu quieres modificar un campo ahora hay que desplegar un switch case para saber que valor vas a modificar 
         //cuarto ya tienes el ArrayList, modficicalo,   
-       if( cositas.size()==0){DetxtAObjeto();}
+       if( cosas.size()==0){DetxtAObjeto();}
           //PASO 1 Y 2 FUNCION DE BUSQUEDA Y MOSTRADO 
         Scanner en =new Scanner(System.in).useDelimiter("\n");
              //PASO 3 CREAR UN SWIRH CASE CON LAS OPCIONES A MODIFICAR
@@ -185,7 +185,7 @@ public class TxtEnJava
                    // String      cadena=en.next(); 
                    int    idNumero=en.nextInt(); 
                    int    numero=en.nextInt();        
-                    for(TxtEnJava n:cositas)
+                    for(TxtEnJava n:cosas)
                     {
                        
                       if(n.getId()==idNumero){
@@ -207,7 +207,7 @@ public class TxtEnJava
                     case 2: System.out.println("Inserte la descripcion del gruposFb y la  nueva descripcion del mismo");
                     String  cadena=en.next();        
                     String cadenaNueva=en.next();        
-                    for(TxtEnJava n:cositas)
+                    for(TxtEnJava n:cosas)
                     {
                        
                       if(n.getDescripcion().equals(cadena)){
@@ -242,7 +242,7 @@ public class TxtEnJava
                    
                            cadena=en.next();        
                           numero=en.nextInt();        
-                    for(TxtEnJava n:cositas)
+                    for(TxtEnJava n:cosas)
                     {
                        
                       if(n.getDescripcion().equals(cadena)){
@@ -265,7 +265,7 @@ public class TxtEnJava
                     case 5: System.out.println("Guardar");
                     try{
                       BufferedWriter bw = new BufferedWriter(new FileWriter(FicherogruposFb));
-                      for(TxtEnJava n:cositas)
+                      for(TxtEnJava n:cosas)
                       {
                           bw.write(n.id+"\t"+n.descripcion+"\t"+ n.cantidad+"\r\n");   
                       }
@@ -284,7 +284,7 @@ public class TxtEnJava
                             
                     try{
                       BufferedWriter bw = new BufferedWriter(new FileWriter(FicherogruposFb));
-                      for(TxtEnJava n:cositas)
+                      for(TxtEnJava n:cosas)
                       {  
                           if(n.getId()!=v){
                            bw.write(n.id+ "\t"+n.descripcion+ "\t"+ n.cantidad+"\r\n");
@@ -293,7 +293,7 @@ public class TxtEnJava
                                          }
                       }
                       bw.close();
-                      cositas.clear();
+                      cosas.clear();
                       DetxtAObjeto();
                       
                      }catch (Exception ex) 
