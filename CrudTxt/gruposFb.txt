@@ -1,2 +1,4 @@
-1	clasi	8
-1	compra	6
+santa	4
+buenos	2
+compra venta	10
+clasif	10
