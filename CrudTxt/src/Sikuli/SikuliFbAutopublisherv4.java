@@ -5,11 +5,13 @@
  */
 package Sikuli;
 
+import crudtxt.Views.Login;
 import crudtxt.Views.View;
 import crudtxt.controller.ImagesController;
 import crudtxt.controller.ResolutionController;
 import crudtxt.modelo.Grupo;
 import crudtxt.modelo.Url;
+import java.io.File;
 import java.io.IOException;
 import static java.lang.System.exit;
 import javax.swing.JOptionPane;
@@ -18,6 +20,7 @@ import org.sikuli.script.Key;
 import org.sikuli.script.KeyModifier;
 import org.sikuli.script.Pattern;
 import org.sikuli.script.Screen;
+import utils.TxtExistsOrCreateChecker;
 
 /**
  *
@@ -44,8 +47,23 @@ public class SikuliFbAutopublisherv4 {
         ResolutionController resolution=new ResolutionController();
         i=new ImagesController(resolution.getHeight());
         
+        //PRIMER USO DEL PROGRAMA
+          TxtExistsOrCreateChecker txtChecker=new TxtExistsOrCreateChecker();
+            if(!txtChecker.checkIfExist(new File("gruposFb.txt"))){
+                Login login=new Login();
+                while(login.isVisible()){
+                  System.out.println("no estas logueado");  
+                }
+                    
+            }else{
+                JOptionPane.showMessageDialog(null,"bienvenido");
+            }
         // Abre jframe View hasta que se clickee comenzar y luego comienza sikuli 
          //  pasar las variables urls y grupos al paso 6 solamente
+         
+        
+         
+         
         View ventana=new View();
         
         while(ventana.isVisible()){

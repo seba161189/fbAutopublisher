@@ -5,7 +5,12 @@
  */
 package crudtxt.Views;
 
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Date;
 import javax.swing.JOptionPane;
+import utils.TxtExistsOrCreateChecker;
 
 /**
  *
@@ -18,6 +23,8 @@ public class Login extends javax.swing.JFrame {
      */
     public Login() {
         initComponents();
+        setVisible(true);
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -31,10 +38,10 @@ public class Login extends javax.swing.JFrame {
 
         pass = new javax.swing.JPasswordField();
         jButton1 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        pass.setText("jPasswordField1");
 
         jButton1.setText("Ingresar");
         jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -44,24 +51,36 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setText("Bienvenido al autopublicador de Facebook");
+
+        jLabel2.setText("Escribe la contraseña para poder utilizar el programa");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(pass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(83, 83, 83)
+                        .addComponent(jButton1))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(27, 27, 27)
-                        .addComponent(jButton1)))
+                        .addGap(21, 21, 21)
+                        .addComponent(jLabel1))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(pass, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel2)
+                .addGap(18, 18, 18)
                 .addComponent(pass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jButton1)
@@ -72,12 +91,27 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-   String today="hola";
-        if(pass.getPassword().toString()==today){
-        JOptionPane.showMessageDialog(null,"correcto"+pass.getPassword().toString());
-    }else{
-           JOptionPane.showMessageDialog(null,"incorrecto"+pass.getPassword().toString()); 
-    }
+
+Date date = new Date();
+String str = new SimpleDateFormat("ddMMyyyy").format(date);
+int hoyx5=5*Integer.parseInt(str);
+   
+  char[] contra = String.valueOf(hoyx5).toCharArray();
+  
+              String passText = new String(pass.getPassword());
+            JOptionPane.showMessageDialog(null,"ingresaste: "+passText);
+            JOptionPane.showMessageDialog(null,"la contraseña deberia ser: "+hoyx5);
+            
+        if(Arrays.equals(pass.getPassword(), contra)){
+
+            JOptionPane.showMessageDialog(null,"Bienvenido y gracias por comprar ");
+            this.setVisible(false);
+            this.dispose();
+            }else{
+                JOptionPane.showMessageDialog(null,"incorrecto"); 
+        } 
+   
+    
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
@@ -117,6 +151,8 @@ public class Login extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPasswordField pass;
     // End of variables declaration//GEN-END:variables
 }

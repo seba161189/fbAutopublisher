@@ -37,4 +37,9 @@ public class TxtExistsOrCreateChecker {
           System.out.println(ex.getMessage());  
        }
     }
+    
+    public boolean checkIfExist(File file){
+         return file.exists();
+    }
+            
 }
