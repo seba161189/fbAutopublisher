@@ -17,7 +17,7 @@ import utils.TxtExistsOrCreateChecker;
  * @author carce
  */
 
-public class SikuliFbAutopublisherv4 {
+public class SikuliFbAutopublisherv5 {
 
     static Screen s=new Screen();
     static ImagesController i;
@@ -34,6 +34,21 @@ public class SikuliFbAutopublisherv4 {
     private static int reintentos=0;
     private static boolean firstTime=true;
     private static int timeout=60;
+    static int cantTotalPublicados=0;
+
+    private static void totalizar() {
+               cantTotalPublicados++;
+        System.out.println("Se publicó "+ cantTotalPublicados + " veces");}
+
+    private static void checkControlDeSeguridad() {
+   // if(s.exists(controlDeSeguridad,15)!=null){
+        
+  //  }
+    }
+
+
+
+ 
     
     boolean navegadorAbierto=false;
     
@@ -76,7 +91,7 @@ public class SikuliFbAutopublisherv4 {
 
  
 
-    private static void bucleDesdeApretarCompartirHastaPublicar(String grupo, int cant) throws InterruptedException, FindFailed {
+    private static void bucleDesdeApretarCompartirHastaPublicar(String grupo, int cant) throws InterruptedException, FindFailed, IOException {
         
         for(int posGrupo=1;posGrupo<=cant;posGrupo++){
             posicionDelGrupo=posGrupo;
@@ -103,13 +118,11 @@ public class SikuliFbAutopublisherv4 {
           paso7();
       }else
         if(s.exists(i.fbIcon,timeout)==null){
-            errorHandler("El programa no entró a facebook correctamente");
             paso3();
         }else{
             paso5();
        }
       }else{
-          errorHandler("Se ha cerrado el navegador");
           paso1();
       }
 
@@ -118,12 +131,10 @@ public class SikuliFbAutopublisherv4 {
     private static void scrolearNavegadorHastaEncontrarBotonCompartir() throws InterruptedException, FindFailed, IOException {
 
         Thread.sleep(2000);
-      //  s.type(Key.ESC); //cierra ventana negra facebook
         int c=0;
-        while(s.exists(i.btnCompartir)==null){
+        while(s.exists(i.btnCompartir,10)==null){
             s.type(Key.PAGE_DOWN);
             if(c==2){
-                errorHandler("No se encontró el boton compartir");
                 paso4();
                 break;
             }
@@ -151,93 +162,130 @@ public class SikuliFbAutopublisherv4 {
             paso4();
         }
         else{
-            errorHandler("Desea reabrir el navegador y continuar?");
             paso1();
         }
      
     }
 
-    private static void clickBtnCompartir() throws InterruptedException, FindFailed{
+    private static void clickBtnCompartir() throws InterruptedException, FindFailed, IOException{
 
-        if(s.exists(i.btnCompartir)!=null){
+        if(s.exists(i.btnCompartir,timeout)!=null){
           s.click(i.btnCompartir); 
-          paso8();  
+            paso8();  
         }
-        else{
-         errorHandler("No se visualiza el boton compartir reintentando...");
-         if(s.exists(i.btnCompartir)!=null){
-            s.click(i.btnCompartir); 
-          paso8();
-         }
          else{
-             JOptionPane.showMessageDialog(null,"El boton compartir no se encontró, reinicia el programa");
-             finalizarPrograma();
+            paso5();
          }
-        }
+        
        
  
     }
 
     private static void paso1() throws IOException, InterruptedException, FindFailed {
         Runtime.getRuntime().exec(chrome);
+        if(isNavegadorAbierto())
         paso2();
     }
 
     private static void paso2() throws InterruptedException, IOException, FindFailed {
        System.out.println("paso2");
+       if(isNavegadorAbierto())
         esperarQueAbraElNavegador();
     }
 
     private static void paso3() throws InterruptedException, FindFailed, IOException {
         System.out.println("paso3");
+        if(isNavegadorAbierto())
         irAUrlYMaximizar();
     }
 
     private static void paso4() throws InterruptedException, FindFailed, IOException {
        System.out.println("paso4");
+       if(isNavegadorAbierto())
         esperarQueEntreFacebook();
     }
 
     private static void paso5() throws InterruptedException, FindFailed, IOException {
         System.out.println("paso5");
+        if(isNavegadorAbierto())
         scrolearNavegadorHastaEncontrarBotonCompartir();
     }
 
-    private static void paso6() throws InterruptedException, FindFailed {
+    private static void paso6() throws InterruptedException, FindFailed, IOException {
         System.out.println("paso6");
+        if(isNavegadorAbierto())
         bucleDesdeApretarCompartirHastaPublicar(grupoActual,cantidadActual);
     }
 
-    private static void paso7() throws InterruptedException, FindFailed {
+    private static void paso7() throws InterruptedException, FindFailed, IOException {
         System.out.println("paso7");
+        if(isNavegadorAbierto())
         clickBtnCompartir();
     }
 
  
-    private static void paso8() throws FindFailed, InterruptedException {
+    private static void paso8() throws FindFailed, InterruptedException, IOException {
         System.out.println("paso8");
+        if(isNavegadorAbierto())
      clickCompartir();  
     }
 
-    private static void paso9() throws InterruptedException, FindFailed {
+    private static void paso9() throws InterruptedException, FindFailed, IOException {
         System.out.println("paso9");
+        if(isNavegadorAbierto())
          clickPublicarEnBiografiaOPagina();
         
     }
     
-        private static void paso10() throws InterruptedException, FindFailed {
+        private static void paso10() throws InterruptedException, FindFailed, IOException {
                 System.out.println("paso10");
+                if(isNavegadorAbierto())
         clickCompartirEnUnGrupo();
      
     }
         
             private static void paso11() throws InterruptedException, FindFailed {
                 System.out.println("paso11");
+                if(isNavegadorAbierto())
    escribirNombreDeGrupoSeleccionarloComentarYPublicar();
+    }
+            
+private static void paso12() throws FindFailed, InterruptedException {
+      recorrerLosGrupos();
+    }
+
+    private static void recorrerLosGrupos() throws FindFailed, FindFailed, InterruptedException {
+        int c=1;
+       
+        while(c<=posicionDelGrupo){
+            s.type(Key.DOWN);
+            c++;
+        }
+        s.type(Key.ENTER);
+        
+        paso13();
+
+    }
+    
+        private static void paso13() throws FindFailed, InterruptedException {
+        escribirComentario();  }
+
+    private static void escribirComentario() throws FindFailed, InterruptedException {
+        if(s.exists(new Pattern(i.comentario).similar(0.9f),30)!=null){
+            s.click(new Pattern(i.comentario).similar(0.9f));
+            s.paste(textoDelComentario);
+            Thread.sleep(500);
+            s.click(i.publicar);
+            totalizar();
+            checkControlDeSeguridad();
+            Thread.sleep(5000);
+        }else{
+            paso12();
+        }
     }
         
         
-    private static void clickCompartir() throws  InterruptedException, FindFailed {
+    private static void clickCompartir() throws  InterruptedException, FindFailed, IOException {
         while(isNavegadorAbierto()){
         if(s.exists(new Pattern(i.compartir).similar(0.8f))!=null){
             s.click(new Pattern(i.compartir).similar(0.8f));   
@@ -265,7 +313,7 @@ public class SikuliFbAutopublisherv4 {
 }
 
 
-    private static void clickPublicarEnBiografiaOPagina() throws FindFailed, InterruptedException {
+    private static void clickPublicarEnBiografiaOPagina() throws FindFailed, InterruptedException, IOException {
     if(s.exists(i.publicar,timeout)==null){
           paso7();//volver
           }else{
@@ -284,8 +332,6 @@ public class SikuliFbAutopublisherv4 {
         }
     else
     if(reintento==1){
-                errorHandler("No se abrio el popup correctamente al reintentar abrelo manualmente");
-                
                 reintentos=0;
         paso7();
     }
@@ -302,35 +348,24 @@ public class SikuliFbAutopublisherv4 {
         s.click(i.nombreDelGrupo);
         s.type(grupoActual);
         Thread.sleep(1500);
-        int c=1;
-        while(c<=posicionDelGrupo){
-            s.type(Key.DOWN);
-            c++;
-        }
-        s.type(Key.ENTER);
-        
-        s.click(new Pattern(i.comentario).similar(0.9f));
-        s.paste(textoDelComentario);
-        s.type(Key.PAGE_DOWN);
-        Thread.sleep(500);
-        s.click(i.publicar);
-        Thread.sleep(5000);
+         paso12();
+    
      
  
     }
 
-    private static void clickCompartirEnUnGrupo() throws InterruptedException, FindFailed {
+    private static void clickCompartirEnUnGrupo() throws InterruptedException, FindFailed, IOException {
      Thread.sleep(500);
     if(s.exists(i.compartirEnUnGrupo)!=null){
         s.click(i.compartirEnUnGrupo);
         paso11();
     }
     else{
-        JOptionPane.showConfirmDialog(null,"no se encuentra compartir en un grupo reanudando...");
-        paso9();
+  paso9();
         }
     }
    private static void finalizarPrograma() {
+       s.type(Key.F4,KeyModifier.CTRL);
       JOptionPane.showMessageDialog(null,"Programa Finalizado");
         System.exit(0);
     }
@@ -362,7 +397,15 @@ if(hoy.after(fin)){
         }
     }
     private static boolean isNavegadorAbierto(){
-        return s.exists(new Pattern(i.newTab).similar(0.8f),timeout)!=null;
+        if(s.exists(new Pattern(i.newTab).similar(0.8f),timeout)!=null){
+            return true;
+        }else{
+        JOptionPane.showMessageDialog(null,"Gracias por utilizar el programa");
+        System.exit(0);
+        return false;  
+        }
+     
+        
     }
 
     public static void errorHandler(String message) throws InterruptedException{

@@ -22,9 +22,11 @@ public class Login extends javax.swing.JFrame {
      * Creates new form Login
      */
     public Login() {
+
         initComponents();
         setVisible(true);
         setLocationRelativeTo(null);
+        setTitle("Login");
     }
 
     /**
@@ -42,6 +44,13 @@ public class Login extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
+
+        pass.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                passActionPerformed(evt);
+            }
+        });
 
         jButton1.setText("Ingresar");
         jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -59,25 +68,25 @@ public class Login extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(83, 83, 83)
-                        .addComponent(jButton1))
+                        .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(96, 96, 96))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(21, 21, 21)
                         .addComponent(jLabel1))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(pass, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(pass))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel2)
                 .addGap(18, 18, 18)
@@ -93,26 +102,27 @@ public class Login extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
 Date date = new Date();
-String str = new SimpleDateFormat("ddMMyyyy").format(date);
-int hoyx5=5*Integer.parseInt(str);
+String strDate = new SimpleDateFormat("ddMMyyyy").format(date);
    
-  char[] contra = String.valueOf(hoyx5).toCharArray();
-  
-              String passText = new String(pass.getPassword());
-            JOptionPane.showMessageDialog(null,"ingresaste: "+passText);
-            JOptionPane.showMessageDialog(null,"la contraseña deberia ser: "+hoyx5);
+char[] contra = String.valueOf("gabi").toCharArray(); //borrar
+     
+// String passText = new String(pass.getPassword());
             
         if(Arrays.equals(pass.getPassword(), contra)){
-
-            JOptionPane.showMessageDialog(null,"Bienvenido y gracias por comprar ");
+            JOptionPane.showMessageDialog(null,"Bienvenido y gracias por comprar");
             this.setVisible(false);
             this.dispose();
             }else{
-                JOptionPane.showMessageDialog(null,"incorrecto"); 
+                JOptionPane.showMessageDialog(null,"Llama al 3434679702 para pedir la contraseña\n"+
+                        "o manda un mail a seba161189@gmail.com","Contraseña incorrecta",1); 
         } 
    
     
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void passActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passActionPerformed
+       jButton1.doClick();
+    }//GEN-LAST:event_passActionPerformed
 
     /**
      * @param args the command line arguments
@@ -148,6 +158,7 @@ int hoyx5=5*Integer.parseInt(str);
             }
         });
     }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

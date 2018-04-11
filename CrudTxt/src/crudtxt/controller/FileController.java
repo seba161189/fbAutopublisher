@@ -5,7 +5,7 @@ import java.io.*;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-public class Controlador 
+public class FileController 
 {
      //Zona de variables 
      int    id;
@@ -13,18 +13,18 @@ public class Controlador
      int    cantidad;   
      File   FicherogruposFb= new File("gruposFb.txt");
      ArrayList<Grupo> grupos = new ArrayList<Grupo>();
-     ArrayList<Controlador> cosas =new ArrayList<Controlador>();
-     Controlador             objeto = null;
+     ArrayList<FileController> cosas =new ArrayList<FileController>();
+     FileController             objeto = null;
      
     //zona de metodos
     
-   public Controlador(int id,String descripcion,int cantidad)
+   public FileController(int id,String descripcion,int cantidad)
     {
          this.id=id;
          this.descripcion=descripcion;
          this.cantidad=cantidad; 
     }             
-   public Controlador(){
+   public FileController(){
   
    } 
    
@@ -132,7 +132,7 @@ public class Controlador
             
             
             //lo paso al constructor para que me cree los objetos
-            objeto= new Controlador(idOperar,descripcion,cantidadOperar);
+            objeto= new FileController(idOperar,descripcion,cantidadOperar);
             //lo añado al vecto para poder jugetear con el 
             cosas.add(objeto);
             
@@ -155,14 +155,14 @@ public class Controlador
       {
      if( cosas.size()==0){DetxtAObjeto();}
      System.out.println("=========================== Articulo=========================================================================================================================================================================================");     
-     for(Controlador n:cosas)
+     for(FileController n:cosas)
      {
       System.out.println("El id es:"+n.getId()+"\t"+"La descripcion es:"+n.getDescripcion()+"\t"+ "La cantaidad es:"+ n.getCantidad());
      }  
      System.out.println("============================FIN==============================================================================================================================================================================================");
    }
       
-      public ArrayList<Controlador> getAll(){
+      public ArrayList<FileController> getAll(){
           if( cosas.size()==0){DetxtAObjeto();}
           return cosas;
       }
@@ -196,7 +196,7 @@ public class Controlador
                    // String      cadena=en.next(); 
                    int    idNumero=en.nextInt(); 
                    int    numero=en.nextInt();        
-                    for(Controlador n:cosas)
+                    for(FileController n:cosas)
                     {
                        
                       if(n.getId()==idNumero){
@@ -218,7 +218,7 @@ public class Controlador
                     case 2: System.out.println("Inserte la descripcion del gruposFb y la  nueva descripcion del mismo");
                     String  cadena=en.next();        
                     String cadenaNueva=en.next();        
-                    for(Controlador n:cosas)
+                    for(FileController n:cosas)
                     {
                        
                       if(n.getDescripcion().equals(cadena)){
@@ -253,7 +253,7 @@ public class Controlador
                    
                            cadena=en.next();        
                           numero=en.nextInt();        
-                    for(Controlador n:cosas)
+                    for(FileController n:cosas)
                     {
                        
                       if(n.getDescripcion().equals(cadena)){
@@ -276,7 +276,7 @@ public class Controlador
                     case 5: System.out.println("Guardar");
                     try{
                       BufferedWriter bw = new BufferedWriter(new FileWriter(FicherogruposFb));
-                      for(Controlador n:cosas)
+                      for(FileController n:cosas)
                       {
                           bw.write(n.id+"\t"+n.descripcion+"\t"+ n.cantidad+"\r\n");   
                       }
@@ -295,7 +295,7 @@ public class Controlador
                             
                     try{
                       BufferedWriter bw = new BufferedWriter(new FileWriter(FicherogruposFb));
-                      for(Controlador n:cosas)
+                      for(FileController n:cosas)
                       {  
                           if(n.getId()!=v){
                            bw.write(n.id+ "\t"+n.descripcion+ "\t"+ n.cantidad+"\r\n");
@@ -360,7 +360,7 @@ public class Controlador
              writer.print("");
             writer.close();
          } catch (FileNotFoundException ex) {
-             Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
+             Logger.getLogger(FileController.class.getName()).log(Level.SEVERE, null, ex);
          }
   }
 
