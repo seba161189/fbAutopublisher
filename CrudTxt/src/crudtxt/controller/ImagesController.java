@@ -26,8 +26,8 @@ public String fbIcon;
 public String fbMalCargado;
 
 
-    public ImagesController(double screenHeight) {
-    setImagesPath(screenHeight);
+    public ImagesController() {
+    setImagesPath();
 
     newTab=IMAGES_PATH+ "newTab.PNG";
     btnCompartir=IMAGES_PATH+"btnCompartir.PNG";
@@ -45,20 +45,14 @@ public String fbMalCargado;
     
     }
 
-    public void setImagesPath(double screenWidth) {
-        switch ((int) screenWidth) {
-            case 1080:  IMAGES_PATH += "\\src\\images\\imagesForResolution1920x1080px\\";
-                     break;
-            case 768:   IMAGES_PATH += "\\src\\images\\imagesForResolution1366x768px\\";
-                     break;
-            default:    IMAGES_PATH  = "\\src\\images\\imagesForResolution1920x1080px\\";
-                     break;
+    public void setImagesPath() {
+       IMAGES_PATH += "\\src\\images\\images\\";
         }
-    }
+}
 
     
             
             
-}
+
 
 

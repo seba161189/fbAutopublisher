@@ -35,27 +35,11 @@ public class SikuliFbAutopublisherv5 {
     private static boolean firstTime=true;
     private static int timeout=60;
     static int cantTotalPublicados=0;
-
-    private static void totalizar() {
-               cantTotalPublicados++;
-        System.out.println("Se publicó "+ cantTotalPublicados + " veces");}
-
-    private static void checkControlDeSeguridad() {
-   // if(s.exists(controlDeSeguridad,15)!=null){
-        
-  //  }
-    }
-
-
-
- 
-    
     boolean navegadorAbierto=false;
     
     public static void main(String[] args) throws ParseException{
      
-    ResolutionController resolution=new ResolutionController();   //Setea la ruta de las imagenes a utilizar segun la resolucion del monitor
-    i=new ImagesController(resolution.getHeight());
+    i=new ImagesController();
     startLogin();
     startView();
     
@@ -403,11 +387,16 @@ if(hoy.after(fin)){
         JOptionPane.showMessageDialog(null,"Gracias por utilizar el programa");
         System.exit(0);
         return false;  
-        }
-     
-        
+        }   
     }
 
+    private static void totalizar() {
+               cantTotalPublicados++;
+        System.out.println("Se publicó "+ cantTotalPublicados + " veces");}
+
+    private static void checkControlDeSeguridad() {
+
+    }
     public static void errorHandler(String message) throws InterruptedException{
         int popup = JOptionPane.showConfirmDialog(null, message+ "\n Click SI para reanudar el programa. \n NO para finalizar programa", "Error al encontrar componente", JOptionPane.YES_NO_OPTION);
         if (popup == JOptionPane.NO_OPTION) {
