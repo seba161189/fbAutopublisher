@@ -1,2 +1,3 @@
-santa	6
-buenos	6
+santa	1
+clasif	10
+compra	10

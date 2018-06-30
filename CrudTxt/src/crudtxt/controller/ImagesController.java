@@ -4,13 +4,20 @@
  * and open the template in the editor.
  */
 package crudtxt.controller;
+
+import Sikuli.v7;
+import java.io.File;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author carce
  */
 public final class ImagesController {
-    
-public String IMAGES_PATH=System.getProperty("user.dir");
+File currentJavaJarFile = new File(v7.class.getProtectionDomain().getCodeSource().getLocation().getPath());   
+String currentJavaJarFilePath = currentJavaJarFile.getAbsolutePath();
+String currentRootDirectoryPath = currentJavaJarFilePath.replace(currentJavaJarFile.getName(), "");
+public String IMAGES_PATH=currentRootDirectoryPath;
 public String newTab;
 public String btnCompartir;
 public String compartir;
@@ -46,8 +53,10 @@ public String fbMalCargado;
     }
 
     public void setImagesPath() {
-       IMAGES_PATH += "\\src\\images\\images\\";
-        }
+       //IMAGES_PATH += "images\\";
+        IMAGES_PATH += "images\\";
+   //     JOptionPane.showMessageDialog(null,IMAGES_PATH);
+    }
 }
 
     
