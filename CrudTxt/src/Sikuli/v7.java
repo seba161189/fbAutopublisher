@@ -38,7 +38,7 @@ public class v7 {
     public static void main(String[] args) throws ParseException{
      
     i=new ImagesController();
-    startLogin();
+   // startLogin();
     startView();
     
     for(Url u:ventana.urls){
@@ -81,7 +81,7 @@ public class v7 {
  
 
     private static void bucleDesdeApretarCompartirHastaPublicar(String grupo, int cant) throws InterruptedException, FindFailed, IOException {
-        
+        System.out.println("Sikuli.v7.esperarQueEntreFacebook()");
         for(int posGrupo=1;posGrupo<=cant;posGrupo++){
             posicionDelGrupo=posGrupo;
             paso7();
@@ -89,13 +89,17 @@ public class v7 {
     }
     
     private static void esperarQueEntreFacebook() throws InterruptedException, FindFailed, IOException {
-
-        if(s.exists(i.btnCompartir)!=null){
+        System.out.println("Sikuli.v7.esperarQueEntreFacebook()");
+        
+        if(s.exists(new Pattern(i.btnCompartir).similar(0.8f),timeout)!=null){
+            System.out.println("Sikuli.v7.esperarQueEntreFacebook()"+"existe boton compartir encontrado");
           paso6();
       }else
         if(s.exists(i.fbIcon,timeout)==null){
+            System.out.println("Sikuli.v7.esperarQueEntreFacebook()"+"navegador cerrado o minimizado");
             paso3();
         }else{
+            System.out.println("Sikuli.v7.esperarQueEntreFacebook()"+"navegador ok pero no se encuentra el boton compartir, scrolear");
             paso5();
        }
 
@@ -105,7 +109,7 @@ public class v7 {
     private static void scrolearNavegadorHastaEncontrarBotonCompartir() throws InterruptedException, FindFailed, IOException {
       if(isNavegadorAbierto()){
         int c=0;
-        while(s.exists(i.btnCompartir,10)==null){
+        while(s.exists(i.btnCompartir,8)==null){
             s.type(Key.PAGE_DOWN);
             if(c==2){
                 paso4();
@@ -264,24 +268,14 @@ private static void paso12() throws FindFailed, InterruptedException {
         
         
     private static void clickCompartir() throws  InterruptedException, FindFailed, IOException {
+        System.out.println("Sikuli.v7.clickCompartir()");
         Thread.sleep(1000);
         while(isNavegadorAbierto()){
-        if(s.exists(new Pattern(i.compartir).similar(0.8f))!=null){
+        if(s.exists(new Pattern(i.compartir).similar(0.8f))!=null || s.exists(new Pattern(i.compartirSeleccionado).similar(0.8f))!=null){
             s.click(new Pattern(i.compartir).similar(0.8f));   
                 paso9();
                 break;
-        }else
-        if(s.exists(new Pattern(i.compartirSeleccionado).similar(0.8f))!=null){
-            s.click(new Pattern(i.compartirSeleccionado).similar(0.8f));
-                paso9();
-                               break;
-        }else
-        if(s.exists(i.publicar)!=null){
-                paso9();
-                               break;
-        }else
-        {
-            paso7();
+
         }
         }
 
@@ -289,32 +283,19 @@ private static void paso12() throws FindFailed, InterruptedException {
 
 
     private static void clickPublicarEnBiografiaOPagina() throws FindFailed, InterruptedException, IOException {
-    if(s.exists(i.publicar,timeout)==null){
-          paso7();//volver
-          }else{
-
-        int reintento=reintentos;
-   //en popup    
-    
-    if(s.exists(i.compartirEnTuBiografia)!=null){
-            s.click(i.compartirEnTuBiografia);
+        System.out.println("Sikuli.v7.clickPublicarEnBiografiaOPagina()");
+    Thread.sleep(500);
+    if(s.exists(new Pattern(i.compartirEnUnGrupo).similar(0.8f))!=null){
+        System.out.println("Sikuli.v7.clickPublicarEnBiografiaOPagina() ENCONTRADO");
+        s.click(new Pattern(i.compartirEnUnGrupo).similar(0.8f));
+             System.out.println("Sikuli.v7.clickPublicarEnBiografiaOPagina() yendo al paso 10 1");
             paso10();
         }
-    else
-    if(s.exists(i.compartirEnPaginaQueAdministras)!=null){
-            s.click(i.compartirEnPaginaQueAdministras);
-            paso10();
-        }
-    else
-    if(reintento==1){
-                reintentos=0;
-        paso7();
-    }
-   
+ 
             }
         
     
-    }
+   // }
 
 
 
@@ -374,7 +355,7 @@ if(hoy.after(fin)){
         }
     }
     private static boolean isNavegadorAbierto(){
-        System.out.println("Navegador: chequeando si está abierto...");
+        //System.out.println("Sikuli.v7.isNavegadorAbierto()");
         if(s.exists(new Pattern(i.newTab).similar(0.8f),timeout)!=null){
             return true;
         }else{
@@ -399,4 +380,3 @@ if(hoy.after(fin)){
     };
 
 }
-

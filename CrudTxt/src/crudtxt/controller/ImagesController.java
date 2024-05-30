@@ -35,7 +35,7 @@ public String fbMalCargado;
 
     public ImagesController() {
     setImagesPath();
-
+    System.out.println("buscando imagenes en "+IMAGES_PATH);
     newTab=IMAGES_PATH+ "newTab.PNG";
     btnCompartir=IMAGES_PATH+"btnCompartir.PNG";
     compartir=IMAGES_PATH+"compartir.PNG";
