@@ -1,3 +1,1 @@
-santa	1
-clasif	2
 compra	2

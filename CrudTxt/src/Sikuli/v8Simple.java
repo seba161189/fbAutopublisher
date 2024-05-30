@@ -15,6 +15,7 @@ import utils.TxtExistsOrCreateChecker;
 
 public class v8Simple {
 
+       //inicializo variables
     static Screen s=new Screen();
     static ImagesController i;
     static View ventana;
@@ -24,7 +25,7 @@ public class v8Simple {
     
     static String linkActual;
     static String grupoActual;
-    static int cantidadActual;
+    static int cantidadGrupoActual;
     
     private static int posicionDelGrupo;
     private static int reintentos=0;
@@ -38,7 +39,7 @@ public class v8Simple {
     public static void main(String[] args) throws ParseException{
      
     i=new ImagesController();
-   // startLogin();
+
     startView();
     
     for(Url u:ventana.urls){
@@ -49,7 +50,7 @@ public class v8Simple {
         for(Grupo g:ventana.grupos){
             System.out.println("Empezando ciclo Nuevo grupo: "+ g);
             grupoActual=g.getDescripcion();
-            cantidadActual=g.getCantidad();
+            cantidadGrupoActual=g.getCantidad();
             try {
                 iniciarPrograma();
             } catch (InterruptedException | FindFailed | IOException ex) {
@@ -64,25 +65,24 @@ public class v8Simple {
     }
 
     
-      static public void iniciarPrograma() throws InterruptedException, FindFailed, IOException{
-        System.out.println("Main: iniciando programa...");
+    static public void iniciarPrograma() throws InterruptedException, FindFailed, IOException{
+        //chequea si es la primera vez que se usa el programa 
+        //para ejecutar chrome o bien solo agrega nueva url en el navegador
         if(firstTime){
             firstTime=false;
             paso1();//abrir navegador
         }else if(newUrl){
             newUrl=false;
-            paso3();//nueva url
+            paso2(); //ir a url y maximizar
           }else{
-            paso6();
+            paso6(); //en caso que la url ya haya estado ingresada
         }
 
     }
 
- 
-
     private static void bucleDesdeApretarCompartirHastaPublicar(String grupo, int cant) throws InterruptedException, FindFailed, IOException {
         System.out.println("Sikuli.v7.esperarQueEntreFacebook()");
-        for(int posGrupo=1;posGrupo<=cant;posGrupo++){
+        for(int posGrupo=1;posGrupo<=cant;posGrupo++){ //el +=2 es por el tab doble que hay que hacer para avanzar a un segundo grupo de la lista
             posicionDelGrupo=posGrupo;
             
             
@@ -111,7 +111,7 @@ public class v8Simple {
       }else
         if(s.exists(i.fbIcon,timeout)==null){
             System.out.println("Sikuli.v7.esperarQueEntreFacebook()"+"navegador cerrado o minimizado");
-            paso3();
+            paso2(); //ir a url y maximizar
         }else{
             System.out.println("Sikuli.v7.esperarQueEntreFacebook()"+"navegador ok pero no se encuentra el boton compartir, scrolear");
             paso5();
@@ -154,19 +154,15 @@ public class v8Simple {
         }
     }
 
-
-
     private static void paso1() throws IOException, InterruptedException, FindFailed {
         System.out.println("Navegador: abriendo navegador...");
         Runtime.getRuntime().exec(chrome);
         if(isNavegadorAbierto()){
-            paso3();
+            paso2(); //ir a url y maximizar
         }
     }
 
-
-
-    private static void paso3() throws InterruptedException, FindFailed, IOException {
+    private static void paso2() throws InterruptedException, FindFailed, IOException {
         System.out.println("Paso 3: yendo a url y maximizando...");
         irAUrlYMaximizar();
     }
@@ -185,47 +181,40 @@ public class v8Simple {
     private static void paso6() throws InterruptedException, FindFailed, IOException {
         System.out.println("paso6: bucle boton compartir hasta publicar");
         if(isNavegadorAbierto())
-        bucleDesdeApretarCompartirHastaPublicar(grupoActual,cantidadActual);
+        bucleDesdeApretarCompartirHastaPublicar(grupoActual,cantidadGrupoActual);
     }
-
-
-
- 
- 
-
-
     
-        private static void paso10() throws InterruptedException, FindFailed, IOException {
+    private static void paso10() throws InterruptedException, FindFailed, IOException {
                 System.out.println("paso10: click compartir en un grupo");
                 if(isNavegadorAbierto())
         clickCompartirEnUnGrupo();
      
     }
         
-            private static void paso11() throws InterruptedException, FindFailed {
+    private static void paso11() throws InterruptedException, FindFailed {
                 System.out.println("paso11: nombre grupo, elegirlo y publicar");
                 if(isNavegadorAbierto())
-   escribirNombreDeGrupoSeleccionarloComentarYPublicar();
+                    escribirGrupoABuscar();
     }
             
-private static void paso12() throws FindFailed, InterruptedException {
-    System.out.println("Recorriendo los grupos");
-      recorrerLosGrupos();
-    }
 
-    private static void recorrerLosGrupos() throws FindFailed, FindFailed, InterruptedException {
+    private static void paso12RecorrerLosGrupos() throws FindFailed, FindFailed, InterruptedException {
         
         int c=1;
-       
-        while(c<=posicionDelGrupo){
-            s.type(Key.TAB);
-            c+=2; //el tab es doble para seleccionar el siguiente grupo de la lista
+       s.type(Key.TAB);
+       System.out.println(posicionDelGrupo+" deberia ser 1 o 2");
+        while(c<posicionDelGrupo){ //c=1 pos grupo =2 es 1 bucle si pos grupo = 1 no entra
+            System.out.println(posicionDelGrupo+" deberia ser 2");
+                s.type(Key.TAB);
+                s.type(Key.TAB);
+             //tab extra por error en seleccion de grupos 
+            c++;
         }
         s.type(Key.ENTER);
         Thread.sleep(1000);
         if(s.exists(new Pattern(i.publicar).similar(0.8f))!=null){
             System.out.println("Sikuli.v8Simple.escribirNombreDeGrupoSeleccionarloComentarYPublicar() LLEGO HASTA ACA");
-            paso13(); 
+            paso13escribirComentarioYPublicar(); 
         } else{
             //error de grupo cantidad en el txt, hay menos grupos
             s.type(Key.ESC);
@@ -239,38 +228,38 @@ private static void paso12() throws FindFailed, InterruptedException {
 
     }
     
-        private static void paso13() throws FindFailed, InterruptedException {
-        escribirComentario();  }
 
-    private static void escribirComentario() throws FindFailed, InterruptedException {
-        if(s.exists(new Pattern(i.comentario).similar(0.8f),15)!=null){
+    private static void paso13escribirComentarioYPublicar() throws FindFailed, InterruptedException {
+        Thread.sleep(2000);
+        /*if(s.exists(new Pattern(i.comentario).similar(0.8f))!=null){
+              System.out.println("escribirComentarioYPublicar LLEGO HASTA ACA");
             s.click(new Pattern(i.comentario).similar(0.8f));
             s.paste(textoDelComentario);
             Thread.sleep(500);
             s.click(i.publicar);
             totalizar();
             checkControlDeSeguridad();
-            Thread.sleep(5000);
+            Thread.sleep(7000);
         }else{
+            System.out.println("escribirComentarioYPublicar VUELVE");
             paso12();
-        }
+        }*/
+        
+        //version nueva directamente pegar
+        s.paste(textoDelComentario);
+        Thread.sleep(500);
+        s.click(i.publicar);
+        totalizar();
+        checkControlDeSeguridad();
+        Thread.sleep(7000);
     }
         
-        
-
-
-
-
-
-
-
-    private static void escribirNombreDeGrupoSeleccionarloComentarYPublicar() throws InterruptedException, FindFailed {
-Thread.sleep(1000);
+    private static void escribirGrupoABuscar() throws InterruptedException, FindFailed {
         
         s.click(i.nombreDelGrupo);
         s.type(grupoActual);
-        Thread.sleep(1500);
-         paso12();
+        Thread.sleep(2500);
+        paso12RecorrerLosGrupos();
     
      
  
@@ -283,12 +272,14 @@ Thread.sleep(1000);
         paso11();
     }
     }
-   private static void finalizarPrograma() {
+    
+    
+    
+    private static void finalizarPrograma() {
        s.type(Key.F4,KeyModifier.CTRL);
       JOptionPane.showMessageDialog(null,"Programa Finalizado");
         System.exit(0);
     }
-
     private static void startLogin() throws ParseException {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 Date hoy = new Date();
@@ -309,7 +300,6 @@ if(hoy.after(fin)){
                 }
             }
     }
-
     private static void startView() {
         ventana=new View();
 
@@ -327,11 +317,9 @@ if(hoy.after(fin)){
         return false;  
         }   
     }
-
     private static void totalizar() {
                cantTotalPublicados++;
         System.out.println("Se publicó "+ cantTotalPublicados + " veces");}
-
     private static void checkControlDeSeguridad() {
 
     }
